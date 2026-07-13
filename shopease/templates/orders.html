@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">My Orders</h2>
+
+    {% if orders %}
+
+    <table class="table table-bordered table-hover">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Order ID</th>
+
+<th>Date</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+<th>Payment</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for order in orders %}
+
+<tr>
+
+<td>
+
+<a href="{% url 'order_details' order.id %}">
+
+#{{ order.id }}
+
+</a>
+
+</td>
+
+<td>{{ order.ordered_at }}</td>
+
+<td>₹ {{ order.total_amount }}</td>
+
+<td>
+
+<span class="badge bg-success">
+
+{{ order.status }}
+
+</span>
+
+</td>
+
+<td>
+
+{{ order.payment_method }}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for order in orders %}
+
+            <tr>
+
+                <td>#{{ order.id }}</td>
+
+                <td>{{ order.ordered_at }}</td>
+
+                <td>₹ {{ order.total_amount }}</td>
+
+                <td>
+                    <span class="badge bg-primary">
+                        {{ order.status }}
+                    </span>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <div class="alert alert-info text-center">
+        You haven't placed any orders yet.
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

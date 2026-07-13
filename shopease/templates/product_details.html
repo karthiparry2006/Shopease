@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="row">
+
+<div class="col-md-5">
+
+<img src="{{ product.image.url }}"
+class="img-fluid rounded shadow">
+
+</div>
+
+<div class="col-md-7">
+
+<h2>{{ product.name }}</h2>
+
+<span class="badge bg-primary">
+{{ product.category.name }}
+</span>
+
+<h3 class="text-success mt-3">
+
+₹ {{ product.price }}
+
+</h3>
+
+<h5 class="text-success">
+
+{% if product.stock > 0 %}
+
+In Stock
+
+{% else %}
+
+Out of Stock
+
+{% endif %}
+
+</h5>
+
+<hr>
+
+<p>
+
+{{ product.description }}
+
+</p>
+
+
+<hr>
+
+<h4>Write a Review</h4>
+
+<form method="POST"
+      action="{% url 'add_review' product.id %}">
+
+{% csrf_token %}
+
+<div class="mb-3">
+
+<label>Rating</label>
+
+<select
+name="rating"
+class="form-select">
+
+<option value="5">⭐⭐⭐⭐⭐</option>
+<option value="4">⭐⭐⭐⭐</option>
+<option value="3">⭐⭐⭐</option>
+<option value="2">⭐⭐</option>
+<option value="1">⭐</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<textarea
+name="review"
+class="form-control"
+rows="4"
+placeholder="Write your review..."
+required></textarea>
+
+</div>
+
+<button
+class="btn btn-primary">
+
+Submit Review
+
+</button>
+
+</form>
+
+<hr>
+
+<h3>Customer Reviews</h3>
+
+{% for review in reviews %}
+
+<div class="card mt-3">
+
+<div class="card-body">
+
+<h5>
+
+{{ review.user.username }}
+
+</h5>
+
+<p>
+
+Rating :
+
+{{ review.rating }}/5 ⭐
+
+</p>
+
+<p>
+
+{{ review.review }}
+
+</p>
+
+<small>
+
+{{ review.created_at }}
+
+</small>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-info">
+
+No Reviews Yet.
+
+</div>
+
+{% endfor %}
+
+<label>
+
+Quantity
+
+</label>
+
+<input
+type="number"
+class="form-control w-25"
+value="1"
+min="1">
+
+<br>
+
+<a href="{% url 'add_to_cart' product.id %}"
+class="btn btn-warning btn-lg">
+Add to Cart
+</a>
+<a href="{% url 'add_to_wishlist' product.id %}"
+   class="btn btn-outline-danger btn-lg">
+    ❤️ Add to Wishlist
+</a>
+
+<a href="#"
+class="btn btn-success btn-lg">
+
+Buy Now
+
+</a>
+
+</div>
+
+</div>
+
+<hr>
+
+<h3>Product Specifications</h3>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Category</th>
+
+<td>{{ product.category.name }}</td>
+
+</tr>
+
+<tr>
+
+<th>Stock</th>
+
+<td>{{ product.stock }}</td>
+
+</tr>
+
+<tr>
+
+<th>Price</th>
+
+<td>₹ {{ product.price }}</td>
+
+</tr>
+
+<tr>
+
+<th>Delivery</th>
+
+<td>Free Delivery</td>
+
+</tr>
+
+<tr>
+
+<th>Warranty</th>
+
+<td>1 Year</td>
+
+</tr>
+
+</table>
+
+</div>
+
+{% endblock %}
